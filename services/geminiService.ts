@@ -5,6 +5,7 @@ import { AspectRatio, ModelType } from "../types";
  * 1. Refines the user's simple prompt into a detailed image generation prompt.
  */
 export const refinePrompt = async (
+  apiKey: string,
   theme: string, 
   userInput: string, 
   hasReferenceImage: boolean = false,
@@ -12,7 +13,7 @@ export const refinePrompt = async (
   variation: string = '' // NEW: Optional variation instruction (e.g. 'Front Side', 'Back Side')
 ): Promise<string> => {
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey: apiKey });
     const model = "gemini-2.5-flash"; 
     
     // Check for special themes that enforce specific angles
@@ -91,6 +92,7 @@ export const refinePrompt = async (
  * 2. Generates the image using Nanobanana (Flash) or Pro
  */
 export const generateImage = async (
+  apiKey: string,
   prompt: string, 
   aspectRatio: AspectRatio, 
   modelType: ModelType,
@@ -102,7 +104,7 @@ export const generateImage = async (
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        const ai = new GoogleGenAI({ apiKey: apiKey });
         const model = modelType === 'pro' ? 'gemini-3-pro-image-preview' : 'gemini-2.5-flash-image';
 
         let apiAspectRatio: any = aspectRatio;
@@ -224,9 +226,9 @@ export const generateImage = async (
   throw lastError || new Error("Image generation failed after retries.");
 };
 
-export const generateSocialText = async (prompt: string): Promise<string> => {
+export const generateSocialText = async (apiKey: string, prompt: string): Promise<string> => {
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey: apiKey });
     const model = "gemini-2.5-flash";
     const instruction = `
       You are a social media manager for an AI art account "Nanobanana Magic".

@@ -8,6 +8,7 @@ import { ImageUploader } from './components/ImageUploader';
 import { BananaIcon } from './components/BananaIcon';
 import { MiniGame } from './components/MiniGame';
 import { TimerGame } from './components/TimerGame';
+import { ApiKeyDialog } from './components/ApiKeyDialog';
 import { THEMES, RATIO_LABELS, ANGLES, MAX_GALLERY_SIZE, AUTO_GEN_LIMIT, TRANSLATIONS, PIXIV_RATIO_MAP } from './constants';
 import { AspectRatio, GeneratedItem, ModelType, ImageVariation } from './types';
 import { generateImage, generateSocialText, refinePrompt } from './services/geminiService';
@@ -36,6 +37,10 @@ const App: React.FC = () => {
   const [bananaClickCount, setBananaClickCount] = useState(0); // Counter for hidden game
   const [language, setLanguage] = useState<'ja' | 'en'>('ja');
   const [autoRatioMessage, setAutoRatioMessage] = useState<string | null>(null);
+  const [userApiKey, setUserApiKey] = useState<string | null>(() => {
+    return localStorage.getItem('gemini_api_key');
+  });
+  const [isApiKeyDialogOpen, setIsApiKeyDialogOpen] = useState(false);
 
   // Refs for loop control and state tracking
   const isLoopingRef = useRef(false);
@@ -158,16 +163,14 @@ const App: React.FC = () => {
   };
 
   // Open API Key Dialog
-  const openApiKeyDialog = async () => {
-    try {
-      if ((window as any).aistudio && (window as any).aistudio.openSelectKey) {
-        await (window as any).aistudio.openSelectKey();
-      } else {
-        console.warn("AI Studio client not found");
-      }
-    } catch (e) {
-      console.error("Failed to open API key dialog", e);
-    }
+  const openApiKeyDialog = () => {
+    setIsApiKeyDialogOpen(true);
+  };
+
+  const handleApiKeySubmit = (apiKey: string) => {
+    localStorage.setItem('gemini_api_key', apiKey);
+    setUserApiKey(apiKey);
+    setIsApiKeyDialogOpen(false);
   };
 
   // Handle Model Change
@@ -260,6 +263,7 @@ const App: React.FC = () => {
 
         // 1. Refine Prompt
         const currentRefinedPrompt = await refinePrompt(
+          userApiKey!,
           themeValue, 
           prompt, 
           !!stepRefImage, // Important: pass true if we have a generated ref image
@@ -272,6 +276,7 @@ const App: React.FC = () => {
         
         // 2. Generate Image
         const base64Image = await generateImage(
+          userApiKey!,
           currentRefinedPrompt, 
           aspectRatio, 
           selectedModel,
@@ -296,7 +301,7 @@ const App: React.FC = () => {
       }
 
       // 3. Generate Social Text (Only once based on the prompt)
-      socialText = await generateSocialText(finalRefinedPrompt);
+      socialText = await generateSocialText(userApiKey!, finalRefinedPrompt);
 
       // 4. Update Gallery with consolidated Item
       const newItem: GeneratedItem = {
@@ -891,6 +896,15 @@ const App: React.FC = () => {
              <p>Security Note: API Key is stored only in your browser session. この工房は安全です。</p>
           </div>
         </div>
+      </Modal>
+
+      {/* API Key Dialog Modal */}
+      <Modal isOpen={!userApiKey || isApiKeyDialogOpen} onClose={() => setIsApiKeyDialogOpen(false)} title="">
+        <ApiKeyDialog 
+          onSubmit={handleApiKeySubmit}
+          currentKey={userApiKey}
+          language={language}
+        />
       </Modal>
 
     </div>
