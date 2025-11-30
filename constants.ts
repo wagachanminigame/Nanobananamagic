@@ -1,0 +1,168 @@
+import { ThemeOption, AspectRatio, AngleOption } from './types';
+
+export const THEMES: ThemeOption[] = [
+  { id: 'none', label: '指定なし (プロンプト重視)', value: '' },
+  
+  // Pixiv Factory Themes
+  { id: 'pixiv_tshirt', label: '【グッズ】Tシャツデザイン', value: 'raw vector graphic illustration file, isolated design on plain background, no t-shirt object visible, flat 2d art, high contrast, suitable for dtg printing' },
+  { id: 'pixiv_acryl', label: '【グッズ】アクリルスタンド', value: 'raw character illustration file, full body, plain solid white background, no acrylic stand base visible, die-cut ready design, flat 2d art' },
+  { id: 'pixiv_phone', label: '【グッズ】スマホケース', value: 'raw vertical texture image file, rectangular wallpaper design, seamless pattern or tall illustration, no phone device visible, no camera hole, flat 2d art' },
+  { id: 'pixiv_mug', label: '【グッズ】マグカップ', value: 'raw rectangular panoramic texture image, wide format flat illustration, seamless pattern or landscape art, no mug handle, no cup shape, flat 2d art for wrap printing' },
+  { id: 'pixiv_tote', label: '【グッズ】トートバッグ', value: 'raw square illustration file, simple line art or graphic design, monochrome or limited palette, no bag object visible, flat 2d art' },
+  { id: 'pixiv_canvas', label: '【グッズ】キャンバスアート', value: 'raw art image file, oil painting or artistic texture, edge-to-edge design, no frame visible, no canvas texture, flat 2d art' },
+  { id: 'pixiv_keyholder', label: '【グッズ】アクリルキーホルダー', value: 'raw charm design file, SD character, thick colorful outline, solid white background, no keychain ring visible, flat 2d art' },
+  { id: 'pixiv_dakimakura', label: '【グッズ】抱き枕カバー', value: 'raw dakimakura texture file, vertical composition, full body character illustration, white background, no pillow object visible, no bed, flat 2d art' },
+
+  { id: 'bikkuriman', label: 'ビックリマンシール風', value: 'bikkuriman sticker style, 1980s japanese prism sticker, deformed chibi character, holographic background, square layout, thick black outline, retro anime style, highly detailed, sticker artifact' },
+  { id: 'pixel_art', label: 'ピクセルアート (ゲーム風)', value: 'pixel art, 8-bit, retro game style, dithering, limited color palette' },
+  { id: 'line_stamp', label: 'LINEスタンプ風', value: 'LINE sticker style, white background, expressive character, simple vector illustration, thick outlines, emotional, 9 different variations, set of stickers' },
+  { id: 'fortune', label: '今日の占い結果', value: 'fortune telling card style, tarot card design, mystical atmosphere, crystal ball, lucky item, zodiac signs, magical border, text overlay style, spiritual' },
+  { id: 'live_stage', label: 'ライブステージ', value: 'live concert stage, glowing spotlights, enthusiastic crowd, silhouettes of fans, stage lights, performance, music festival atmosphere, dynamic lighting' },
+  { id: 'ultimate_equip', label: '最強装備装着', value: 'fully equipped with ultimate legendary armor, glowing weapons, divine aura, max level gear, intricate gold and gem details, epic fantasy style, masterpiece, hero pose' },
+  { id: 'xray', label: 'レントゲン', value: 'x-ray photography, skeletal structure, transparent layers, blue and black medical imaging style, internal details, radiography, high contrast' },
+  { id: 'supermarket_flyer', label: 'スーパーのチラシ', value: 'japanese supermarket flyer design, chaotic layout, bold red price tags with yen symbol, discount stickers, explosion bubbles, fresh food photos, bargain sale aesthetic, high energy' },
+  { id: 'giragira_thumb', label: 'ギラギラサムネイル', value: 'flashy thumbnail design, high saturation, gold and silver glitter texture, impact font, glowing effects, burning aura, intense energy, clickbait visual, japanese variety show style, bold stroke' },
+  { id: 'youtube_thumb', label: 'ユーチューブ用サムネ', value: 'YouTube thumbnail design, high quality, expressive facial expression, clear focus, rule of thirds, vibrant colors, catchy composition, professional content creator style, high click-through rate aesthetic' },
+  { id: 'corp_logo', label: '企業ロゴ', value: 'modern corporate logo design, minimalist, vector graphic, clean lines, professional branding, symbol, flat design, white background, memorable icon' },
+  { id: 'fashion_mag', label: 'ファッション雑誌風', value: 'fashion magazine editorial, high fashion, typography, trendy, stylish layout, bold colors, vogue style' },
+  { id: 'b_movie', label: 'B級映画風', value: 'B-movie poster, retro horror/sci-fi, grainy, exploitation style, bold title fonts, dramatic lighting, kitsch, 1970s poster' },
+  { id: 'giant_bear', label: '巨大熊との2ショット(インカメ)', value: 'selfie shot, ultra wide angle, extreme close-up of a person face and a giant realistic grizzly bear background, scary but funny, forest background, realistic texture, 4k, looking at camera' },
+  { id: 'mosaic', label: 'モザイクアート', value: 'mosaic art style, stained glass, tile art, vibrant colors, intricate patterns, geometric, decorative, glass texture' },
+  { id: 'cyberpunk', label: 'サイバーパンク・ネオン', value: 'cyberpunk, neon lights, futuristic city, high contrast, vibrant colors' },
+  { id: 'watercolor', label: '水彩画風', value: 'watercolor painting, soft edges, pastel colors, artistic, dreamy' },
+  { id: 'photorealistic', label: 'フォトリアル', value: 'highly detailed, photorealistic, 8k resolution, cinematic lighting, sharp focus' },
+  { id: 'anime', label: 'アニメスタイル', value: 'anime style, cel shaded, vibrant, clean lines, japanese animation' },
+  { id: 'ranking', label: 'ランキング形式の図解', value: 'infographic style, ranking chart, podium, numbers 1 2 3, crown, comparison, clear layout, vector illustration' },
+  { id: 'mini_figure', label: 'ミニフィギュア', value: 'nendoroid style, chibi figure, plastic texture, toy photography, tilt-shift effect, figurine box packaging, cute' },
+  { id: 'zukan', label: '図鑑', value: 'encyclopedia illustration, botanical or scientific diagram style, white background, detailed specimen, text annotations, educational' },
+  { id: 'manga_bw', label: '白黒漫画', value: 'japanese manga style, black and white, screen tones, ink lines, comic panels, dynamic action, speech bubbles' },
+  { id: 'kindle_mock', label: 'Kindle表紙モックアップ', value: 'ebook cover design, kindle book mockup, professional typography, catchy title, best seller look, graphic design' },
+  { id: 'tv_news', label: 'TVニュース風', value: 'breaking news broadcast, television screen overlay, lower thirds text, LIVE badge, news studio background, reporter view' },
+  { id: 'ai_babaa', label: 'AIばばあとの記念写真', value: 'selfie photo with a friendly cheerful elderly japanese woman, peace sign, tourist spot, AI Grandma, realistic, funny, meme style' },
+  { id: 'minimalist', label: 'ミニマリスト', value: 'minimalist design, simple shapes, clean background, negative space, modern' },
+  { id: 'retro', label: 'レトロ・ヴィンテージ', value: 'vintage style, retro aesthetic, grain, faded colors, 1980s vibe' },
+  { id: 'fantasy', label: 'ファンタジー', value: 'fantasy art, magical, ethereal, intricate details, dragons, castles' },
+  { id: 'ukiyo-e', label: '浮世絵風', value: 'ukiyo-e style, japanese woodblock print, traditional japanese art, textures' },
+];
+
+// Mapping to auto-select aspect ratio for goods
+export const PIXIV_RATIO_MAP: Record<string, AspectRatio> = {
+  'pixiv_tshirt': AspectRatio.Portrait,
+  'pixiv_acryl': AspectRatio.Portrait,
+  'pixiv_phone': AspectRatio.Tall,
+  'pixiv_mug': AspectRatio.Wide,
+  'pixiv_tote': AspectRatio.Square,
+  'pixiv_canvas': AspectRatio.Square,
+  'pixiv_keyholder': AspectRatio.Square,
+  'pixiv_dakimakura': AspectRatio.Tall, // Map to 9:16 (Tallest available)
+};
+
+export const ANGLES: AngleOption[] = [
+  { id: 'none', label: 'AIにおまかせ', value: '', description: '最適なアングルを自動決定' },
+  { id: 'eye_level', label: 'アイレベル (目線)', value: 'eye-level shot, neutral angle', description: '自然な視点' },
+  { id: 'low_angle', label: 'ローアングル (あおり)', value: 'low angle shot, looking up, worm\'s-eye view', description: '下から見上げる迫力' },
+  { id: 'high_angle', label: 'ハイアングル (俯瞰)', value: 'high angle shot, looking down', description: '上から見下ろす' },
+  { id: 'birds_eye', label: '真上から (鳥瞰)', value: 'bird\'s-eye view, top-down view', description: '地図のように真上から' },
+  { id: 'close_up', label: 'クローズアップ', value: 'extreme close-up, macro shot', description: '細部を強調' },
+  { id: 'wide_shot', label: 'ワイドショット (引き)', value: 'wide shot, panoramic view', description: '広く見せる' },
+  { id: 'dutch', label: 'ダッチアングル (斜め)', value: 'dutch angle, tilted camera', description: '不安感や躍動感' },
+  { id: 'selfie', label: 'セルフィー風', value: 'selfie angle, holding camera', description: '自撮り風' },
+];
+
+export const RATIO_LABELS: Record<AspectRatio, string> = {
+  [AspectRatio.Square]: "正方形 (1:1)",
+  [AspectRatio.Portrait]: "縦長 (3:4)",
+  [AspectRatio.Landscape]: "横長 (4:3)",
+  [AspectRatio.Wide]: "ワイド (16:9)",
+  [AspectRatio.Tall]: "スマホ全画面 (9:16)",
+  [AspectRatio.Grid3x3]: "3x3 グリッド (9パターン)",
+  [AspectRatio.XHeader]: "Xヘッダー (3:1 ※API制限で16:9出力)",
+  [AspectRatio.Kindle]: "Kindle表紙 (1:1.6)",
+};
+
+export const MAX_GALLERY_SIZE = 50;
+export const AUTO_GEN_LIMIT = 20;
+
+// Translations
+export const TRANSLATIONS = {
+  ja: {
+    shop_warning: "店主からの注意",
+    gold_warning: "API消費(ゴールド)が発生します(Proの場合)。",
+    free_warning: "無料枠(Free Tier)のAPIキーなら無料で使えます。",
+    limit_warning: (limit: number) => `自動生成は${limit}回で止まります。`,
+    dakimakura_warning: "⚠️ 技術的制限: APIの出力比率は最大9:16(Tall)です。正規サイズ(1:3)にするにはAI高画質化ツール等が必要です。\n※自動で【表面】と【裏面】の2枚を生成します。",
+    prompt_label: "呪文 (PROMPT)",
+    prompt_ph: "何を作り出しますか？ (例: 宇宙猫、サイバーパンクな渋谷...)",
+    theme_label: "世界観 (THEME)",
+    tier_label: "装備ランク (TIER)",
+    ratio_label: "キャンバス比率 (RATIO)",
+    angle_label: "カメラアングル (ANGLE)",
+    ref_image_label: "参考画像(素材)を装備",
+    ref_optional: "OPTIONAL",
+    drag_drop: "DRAG & DROP OR CLICK",
+    create_btn: "CREATE ITEM (生成)",
+    stop_auto: "STOP AUTO CRAFT",
+    start_auto: "AUTO CRAFT (連続生成)",
+    loading: "CRAFTING MAGIC...",
+    latest_drop: "LATEST DROP",
+    change_angle: "CHANGE",
+    history_btn: "HISTORY",
+    help_btn: "HELP",
+    key_btn: "API KEY",
+    history_title: "COLLECTION ROOM",
+    collection_square: "SQUARE ROOM (1:1)",
+    collection_portrait: "PORTRAIT ROOM (Vertical)",
+    collection_landscape: "LANDSCAPE ROOM (Horizontal)",
+    
+    // Timer Game
+    game_wait: "WAITING GAME",
+    game_desc: "3.00秒 ピッタリで止めろ！",
+    game_perfect: "PERFECT!! GODLIKE!!",
+    game_great: "GREAT! ALMOST!",
+    game_good: "GOOD!",
+    game_try: "TRY AGAIN!",
+    game_start: "START",
+    game_stop: "STOP!",
+    game_retry: "RETRY",
+  },
+  en: {
+    shop_warning: "SHOPKEEPER'S WARNING",
+    gold_warning: "API usage (Gold) costs apply for Pro.",
+    free_warning: "Free Tier API keys are free to use.",
+    limit_warning: (limit: number) => `Auto-craft stops after ${limit} runs.`,
+    dakimakura_warning: "⚠️ TECH LIMIT: API Output max ~9:16 (Tall). For 1:3, you need an AI Upscaler.\n*Auto-generating 2 images (Front & Back).",
+    prompt_label: "SPELL (PROMPT)",
+    prompt_ph: "What shall we craft? (e.g. Space Cat, Cyberpunk City...)",
+    theme_label: "REALM (THEME)",
+    tier_label: "GEAR RANK (TIER)",
+    ratio_label: "CANVAS RATIO",
+    angle_label: "CAMERA ANGLE",
+    ref_image_label: "EQUIP REFERENCE IMAGE",
+    ref_optional: "OPTIONAL",
+    drag_drop: "DRAG & DROP OR CLICK",
+    create_btn: "CREATE ITEM",
+    stop_auto: "STOP AUTO CRAFT",
+    start_auto: "AUTO CRAFT",
+    loading: "CRAFTING MAGIC...",
+    latest_drop: "LATEST DROP",
+    change_angle: "CHANGE",
+    history_btn: "STORAGE",
+    help_btn: "GUIDE",
+    key_btn: "KEY",
+    history_title: "COLLECTION ROOM",
+    collection_square: "SQUARE ROOM",
+    collection_portrait: "PORTRAIT ROOM",
+    collection_landscape: "LANDSCAPE ROOM",
+
+    // Timer Game
+    game_wait: "TIME ATTACK",
+    game_desc: "STOP AT EXACTLY 3.00s!",
+    game_perfect: "PERFECT!! GODLIKE!!",
+    game_great: "GREAT! ALMOST!",
+    game_good: "GOOD!",
+    game_try: "TRY AGAIN!",
+    game_start: "START",
+    game_stop: "STOP!",
+    game_retry: "RETRY",
+  }
+};
