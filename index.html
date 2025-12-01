@@ -2,18 +2,27 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>NANOBANANA MAGIC | ナノバナナ・マジック</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍌</text></svg>" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍌</text></svg>"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap"
+      rel="stylesheet"
+    />
     <style>
       body {
-        font-family: 'DotGothic16', sans-serif;
-        background-color: #FEFCE8; /* yellow-50 */
+        font-family: "DotGothic16", sans-serif;
+        background-color: #fefce8; /* yellow-50 */
         color: #1a1a1a;
         -webkit-font-smoothing: none; /* Sharper pixels */
-        
+
         /* Pixel Banana Pattern Background (Colored) */
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24'%3E%3Cg opacity='0.15'%3E%3Cpath d='M6 2H10V4H12V6H14V8H16V10H18V12H20V18H18V20H16V22H10V20H8V18H6V16H4V8H6V2Z' fill='%23000000'/%3E%3Cpath d='M8 4H10V6H12V8H14V10H16V12H18V18H16V20H10V18H8V16H6V8H8V4Z' fill='%23FACC15'/%3E%3Cpath d='M8 4H10V6H8V4Z' fill='%23A3E635'/%3E%3Cpath d='M10 8H12V10H10V8Z' fill='%23FEF08A'/%3E%3C/g%3E%3C/svg%3E");
         background-size: 48px 48px;
@@ -27,54 +36,99 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
-      
+
       /* Retro inputs */
-      input, select, textarea, button {
-        font-family: 'DotGothic16', sans-serif;
+      input,
+      select,
+      textarea,
+      button {
+        font-family: "DotGothic16", sans-serif;
       }
 
       /* Banana Logo Animations */
       @keyframes banana-drop {
-        0% { transform: translateY(0) rotate(0); opacity: 1; }
-        20% { transform: translateY(-15px) rotate(-15deg); }
-        100% { transform: translateY(150px) rotate(180deg); opacity: 0; }
+        0% {
+          transform: translateY(0) rotate(0);
+          opacity: 1;
+        }
+        20% {
+          transform: translateY(-15px) rotate(-15deg);
+        }
+        100% {
+          transform: translateY(150px) rotate(180deg);
+          opacity: 0;
+        }
       }
       .animate-banana-drop {
         animation: banana-drop 0.8s forwards;
       }
 
       @keyframes banana-jump {
-        0% { transform: translateY(0); }
-        40% { transform: translateY(-30px) rotate(180deg); }
-        100% { transform: translateY(0) rotate(360deg); }
+        0% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-30px) rotate(180deg);
+        }
+        100% {
+          transform: translateY(0) rotate(360deg);
+        }
       }
       .animate-banana-jump {
         animation: banana-jump 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       }
 
       @keyframes banana-shake {
-        0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-4px) rotate(-5deg); }
-        20%, 40%, 60%, 80% { transform: translateX(4px) rotate(5deg); }
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+          transform: translateX(-4px) rotate(-5deg);
+        }
+        20%,
+        40%,
+        60%,
+        80% {
+          transform: translateX(4px) rotate(5deg);
+        }
       }
       .animate-banana-shake {
         animation: banana-shake 0.5s ease-in-out;
       }
 
       @keyframes banana-spin {
-        0% { transform: scale(1) rotate(0); }
-        50% { transform: scale(1.2) rotate(360deg); }
-        100% { transform: scale(1) rotate(720deg); }
+        0% {
+          transform: scale(1) rotate(0);
+        }
+        50% {
+          transform: scale(1.2) rotate(360deg);
+        }
+        100% {
+          transform: scale(1) rotate(720deg);
+        }
       }
       .animate-banana-spin {
         animation: banana-spin 0.8s ease-in-out;
       }
 
       @keyframes banana-pop {
-         0% { transform: scale(1); }
-         50% { transform: scale(1.5) rotate(10deg); }
-         70% { transform: scale(1.5) rotate(-10deg); }
-         100% { transform: scale(1); }
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.5) rotate(10deg);
+        }
+        70% {
+          transform: scale(1.5) rotate(-10deg);
+        }
+        100% {
+          transform: scale(1);
+        }
       }
       .animate-banana-pop {
         animation: banana-pop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -82,28 +136,39 @@
 
       /* Subtle Flash Animation for Promo Banner */
       @keyframes flash-occasionally {
-        0%, 92% { filter: brightness(1); }
-        93% { filter: brightness(1.25) contrast(1.1); }
-        94% { filter: brightness(1); }
-        95% { filter: brightness(1.25) contrast(1.1); }
-        100% { filter: brightness(1); }
+        0%,
+        92% {
+          filter: brightness(1);
+        }
+        93% {
+          filter: brightness(1.25) contrast(1.1);
+        }
+        94% {
+          filter: brightness(1);
+        }
+        95% {
+          filter: brightness(1.25) contrast(1.1);
+        }
+        100% {
+          filter: brightness(1);
+        }
       }
       .animate-flash-occasionally {
         animation: flash-occasionally 7s infinite;
       }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
-  }
-}
-</script>
-</head>
+    <script type="importmap">
+      {
+        "imports": {
+          "react/": "https://aistudiocdn.com/react@^19.2.0/",
+          "react": "https://aistudiocdn.com/react@^19.2.0",
+          "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+          "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+          "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
+        }
+      }
+    </script>
+  </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
