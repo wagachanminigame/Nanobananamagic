@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Share2, Download, Copy, Trash2, ShoppingBag, ChevronLeft, ChevronRight, FileText, CheckCircle, AlertTriangle, RefreshCw } from 'lucide-react';
 import { GeneratedItem, AspectRatio } from '../types';
+import { ShareModal } from './ShareModal';
 
 interface ImageCardProps {
   item: GeneratedItem;
@@ -14,6 +15,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({ item, isFeatured = false, 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [feedback, setFeedback] = useState<{msg: string, type: 'success' | 'error'} | null>(null);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   
   // Use variations if available, otherwise fallback to single image
   const images = item.variations && item.variations.length > 0 
@@ -27,40 +29,9 @@ export const ImageCard: React.FC<ImageCardProps> = ({ item, isFeatured = false, 
       setTimeout(() => setFeedback(null), 2000);
   };
 
-  const handleShareToX = () => {
-    // Generate Remix URL with parameters
-    const baseUrl = window.location.origin + window.location.pathname;
-    const params = new URLSearchParams();
-    
-    // Encode parameters (short keys to save char count)
-    // p = prompt, t = theme, a = angle, r = ratio, m = model
-    
-    // Safety Truncation: If prompt is extremely long, truncate it for the URL to avoid browser intent errors
-    // Limit to ~400 chars for the URL parameter (The actual prompt in the app remains full)
-    let safePrompt = item.originalPrompt || '';
-    if (safePrompt.length > 400) {
-        safePrompt = safePrompt.substring(0, 400); // Simple truncation
-    }
-
-    if (safePrompt) params.set('p', safePrompt);
-    if (item.themeId) params.set('t', item.themeId);
-    if (item.angleId) params.set('a', item.angleId);
-    if (item.aspectRatio) params.set('r', item.aspectRatio);
-    // Don't force 'pro' model in share link to avoid paywall friction, default to user's choice or flash
-    params.set('m', 'flash'); 
-
-    const remixUrl = `${baseUrl}?${params.toString()}`;
-
-    // Construct tweet
-    // We separate the URL into the &url= parameter so X handles the shortening (23 chars) cleanly
-    const shareText = `${item.socialText}\n\n👇 REMIX RECIPE (続きを作る) 👇`;
-    
-    const textParam = encodeURIComponent(shareText);
-    const urlParam = encodeURIComponent(remixUrl);
-    
-    // Use &url parameter for the link
-    const twitterIntentUrl = `https://twitter.com/intent/tweet?text=${textParam}&url=${urlParam}`;
-    window.open(twitterIntentUrl, '_blank');
+  const handleShareClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsShareModalOpen(true);
   };
 
   const handleDownload = (e: React.MouseEvent) => {
@@ -295,14 +266,23 @@ export const ImageCard: React.FC<ImageCardProps> = ({ item, isFeatured = false, 
             {new Date(item.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
           </span>
           <button 
-            onClick={handleShareToX}
+            onClick={handleShareClick}
             className="flex items-center gap-1.5 text-[10px] sm:text-xs font-bold text-black hover:text-blue-600 transition-colors uppercase"
           >
             <Share2 size={12} />
-            POST & RELAY
+            SHARE
           </button>
         </div>
       </div>
+
+      {/* Share Modal */}
+      {isShareModalOpen && (
+        <ShareModal
+          item={item}
+          currentImageUrl={currentImage.url}
+          onClose={() => setIsShareModalOpen(false)}
+        />
+      )}
     </div>
   );
 };
