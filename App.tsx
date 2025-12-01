@@ -206,15 +206,23 @@ const App: React.FC = () => {
     setIsApiKeyDialogOpen(true);
   };
 
-  const handleApiKeySubmit = (apiKey: string, proApiKey?: string) => {
-    localStorage.setItem("gemini_api_key", apiKey);
-    setUserApiKey(apiKey);
-    if (proApiKey) {
-      localStorage.setItem("gemini_pro_api_key", proApiKey);
-      setUserProApiKey(proApiKey);
-    } else if (proApiKey === "") {
+  const handleApiKeySubmit = (apiKey: string | null, proApiKey?: string) => {
+    if (apiKey === null || apiKey === "") {
+      // 削除処理
+      localStorage.removeItem("gemini_api_key");
+      setUserApiKey(null);
       localStorage.removeItem("gemini_pro_api_key");
       setUserProApiKey(null);
+    } else {
+      localStorage.setItem("gemini_api_key", apiKey);
+      setUserApiKey(apiKey);
+      if (proApiKey) {
+        localStorage.setItem("gemini_pro_api_key", proApiKey);
+        setUserProApiKey(proApiKey);
+      } else if (proApiKey === "") {
+        localStorage.removeItem("gemini_pro_api_key");
+        setUserProApiKey(null);
+      }
     }
     setIsApiKeyDialogOpen(false);
   };

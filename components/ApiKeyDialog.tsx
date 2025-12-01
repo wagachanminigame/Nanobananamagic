@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Key, ExternalLink, AlertCircle, Sparkles } from 'lucide-react';
+import { Key, ExternalLink, AlertCircle, Sparkles, Trash2 } from 'lucide-react';
 import { Button } from './Button';
 
 interface ApiKeyDialogProps {
-  onSubmit: (apiKey: string, proApiKey?: string) => void;
+  onSubmit: (apiKey: string | null, proApiKey?: string) => void;
   currentKey?: string | null;
   currentProKey?: string | null;
   language: 'ja' | 'en';
@@ -21,6 +21,11 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
     }
   };
 
+  const handleDelete = () => {
+    setInputKey('');
+    onSubmit(null);
+  };
+
   const t = {
     ja: {
       title: 'APIキーの設定',
@@ -29,10 +34,12 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
       placeholder: 'AIza...',
       link: 'Google AI StudioでAPIキーを取得',
       save: '保存して開始',
+      delete: 'APIキーを削除',
       warning: 'APIキーはブラウザにのみ保存され、サーバーには送信されません。',
       free_title: '🆓 無料で使いたい方はこちら！',
       free_btn: 'Google AI Studio で無料で使う',
       free_note: '※ Googleアカウントでログインして使えます',
+      current_key: '現在のキー',
     },
     en: {
       title: 'Setup API Key',
@@ -41,10 +48,12 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
       placeholder: 'AIza...',
       link: 'Get API Key from Google AI Studio',
       save: 'Save & Start',
+      delete: 'Delete API Key',
       warning: 'API Key is stored locally in your browser and never sent to our server.',
       free_title: '🆓 Want to use for FREE?',
       free_btn: 'Use FREE on Google AI Studio',
       free_note: '※ Login with your Google account to use',
+      current_key: 'Current Key',
     }
   };
 
@@ -122,13 +131,25 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
         </div>
       </div>
 
-      <Button 
-        onClick={handleSubmit}
-        disabled={!inputKey.trim()}
-        className="w-full py-3"
-      >
-        {text.save}
-      </Button>
+      <div className="space-y-2">
+        <Button 
+          onClick={handleSubmit}
+          disabled={!inputKey.trim()}
+          className="w-full py-3"
+        >
+          {text.save}
+        </Button>
+
+        {currentKey && (
+          <button
+            onClick={handleDelete}
+            className="w-full py-2 px-4 bg-red-100 hover:bg-red-200 text-red-700 font-bold text-sm border-2 border-red-400 flex items-center justify-center gap-2 transition-colors"
+          >
+            <Trash2 size={16} />
+            {text.delete}
+          </button>
+        )}
+      </div>
 
       <div className="flex items-start gap-2 bg-yellow-50 border-2 border-yellow-400 p-3 text-xs">
         <AlertCircle size={16} className="text-yellow-600 shrink-0 mt-0.5" />
