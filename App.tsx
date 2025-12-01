@@ -37,6 +37,11 @@ import {
 } from "./constants";
 import { AspectRatio, GeneratedItem, ModelType, ImageVariation } from "./types";
 import {
+  loadGallery,
+  addGalleryItem,
+  deleteGalleryItem,
+} from "./services/galleryStorage";
+import {
   generateImage,
   generateSocialText,
   refinePrompt,
@@ -126,6 +131,22 @@ const App: React.FC = () => {
       window.history.replaceState({}, "", window.location.pathname);
       setTimeout(() => setAutoRatioMessage(null), 4000);
     }
+  }, []);
+
+  // Load gallery from IndexedDB on initial mount
+  useEffect(() => {
+    const initGallery = async () => {
+      try {
+        const savedGallery = await loadGallery();
+        if (savedGallery.length > 0) {
+          setGallery(savedGallery);
+          console.log(`Loaded ${savedGallery.length} items from storage`);
+        }
+      } catch (error) {
+        console.error("Failed to load gallery from storage:", error);
+      }
+    };
+    initGallery();
   }, []);
 
   // Toggle Help / Modals
@@ -235,6 +256,8 @@ const App: React.FC = () => {
   // Delete Item
   const handleDeleteItem = (id: string) => {
     setGallery((prev) => prev.filter((item) => item.id !== id));
+    // Also delete from IndexedDB
+    deleteGalleryItem(id).catch(console.error);
   };
 
   // Handle Remix (Relay) from within the App
@@ -390,6 +413,9 @@ const App: React.FC = () => {
         const newGallery = [newItem, ...prev];
         return newGallery.slice(0, MAX_GALLERY_SIZE);
       });
+
+      // Save to IndexedDB
+      addGalleryItem(newItem).catch(console.error);
 
       // Increment notification count
       setNewItemsCount((prev) => prev + 1);
