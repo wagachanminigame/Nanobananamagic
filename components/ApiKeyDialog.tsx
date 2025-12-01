@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Key, ExternalLink, AlertCircle, ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
+import { Key, ExternalLink, AlertCircle, Sparkles } from 'lucide-react';
 import { Button } from './Button';
 
 interface ApiKeyDialogProps {
@@ -13,14 +13,11 @@ const AI_STUDIO_FREE_LINK = 'https://ai.studio/apps/drive/1fFjmvZbE4HWDvqrfhbLUD
 
 export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey, currentProKey, language }) => {
   const [inputKey, setInputKey] = useState(currentKey || '');
-  const [inputProKey, setInputProKey] = useState(currentProKey || '');
   const [showKey, setShowKey] = useState(false);
-  const [showProKey, setShowProKey] = useState(false);
-  const [isProOpen, setIsProOpen] = useState(!!currentProKey);
 
   const handleSubmit = () => {
     if (inputKey.trim()) {
-      onSubmit(inputKey.trim(), inputProKey.trim() || undefined);
+      onSubmit(inputKey.trim());
     }
   };
 
@@ -29,35 +26,25 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
       title: 'APIキーの設定',
       desc: '⚠️ 画像生成には有料のAPIキーが必要です。無料で使いたい方は下のボタンからGoogle AI Studioをご利用ください。',
       label: 'Gemini APIキー (有料)',
-      labelPro: 'Pro APIキー (課金/Proモデル用)',
       placeholder: 'AIza...',
       link: 'Google AI StudioでAPIキーを取得',
       save: '保存して開始',
-      current: '現在のキー',
-      change: '変更',
       warning: 'APIキーはブラウザにのみ保存され、サーバーには送信されません。',
       free_title: '🆓 無料で使いたい方はこちら！',
       free_btn: 'Google AI Studio で無料で使う',
       free_note: '※ Googleアカウントでログインして使えます',
-      pro_desc: 'Gemini 3 Pro (LEGEND) を使用する場合は、別途APIキーを設定してください。',
-      toggle_pro: 'Proモデル用キー設定 (オプション)',
     },
     en: {
       title: 'Setup API Key',
       desc: '⚠️ Image generation requires a paid API key. For free usage, please use Google AI Studio via the button below.',
       label: 'Gemini API Key (Paid)',
-      labelPro: 'Pro API Key (For Paid/Pro Model)',
       placeholder: 'AIza...',
       link: 'Get API Key from Google AI Studio',
       save: 'Save & Start',
-      current: 'Current Key',
-      change: 'Change',
       warning: 'API Key is stored locally in your browser and never sent to our server.',
       free_title: '🆓 Want to use for FREE?',
       free_btn: 'Use FREE on Google AI Studio',
       free_note: '※ Login with your Google account to use',
-      pro_desc: 'To use Gemini 3 Pro (LEGEND), please set a separate API key.',
-      toggle_pro: 'Pro Model Key Settings (Optional)',
     }
   };
 
@@ -99,7 +86,7 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
         <div className="h-[2px] flex-1 bg-gray-200"></div>
       </div>
 
-      {/* Standard Key Input */}
+      {/* API Key Input */}
       <div className="space-y-2">
         <div className="flex justify-between items-center">
           <label className="text-sm font-bold flex items-center gap-2">
@@ -133,45 +120,6 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
             {showKey ? 'HIDE' : 'SHOW'}
           </button>
         </div>
-      </div>
-
-      {/* Pro Key Section (Collapsible) */}
-      <div className="border-2 border-gray-200 rounded-lg overflow-hidden">
-        <button 
-          onClick={() => setIsProOpen(!isProOpen)}
-          className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 transition-colors"
-        >
-          <span className="text-sm font-bold flex items-center gap-2 text-gray-700">
-            <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
-            {text.toggle_pro}
-          </span>
-          {isProOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-        </button>
-        
-        {isProOpen && (
-          <div className="p-4 bg-white border-t-2 border-gray-200 space-y-3">
-            <p className="text-xs text-gray-500 mb-2">{text.pro_desc}</p>
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-gray-700">{text.labelPro}</label>
-              <div className="relative">
-                <input
-                  type={showProKey ? 'text' : 'password'}
-                  placeholder={text.placeholder}
-                  value={inputProKey}
-                  onChange={(e) => setInputProKey(e.target.value)}
-                  className="w-full border-2 border-gray-300 p-2 bg-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 font-mono text-sm pr-20"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowProKey(!showProKey)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-xs bg-gray-100 px-2 py-1 border border-gray-300 hover:bg-gray-200"
-                >
-                  {showProKey ? 'HIDE' : 'SHOW'}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
 
       <Button 

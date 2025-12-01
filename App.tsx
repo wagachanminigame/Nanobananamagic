@@ -74,7 +74,10 @@ const App: React.FC = () => {
   const [userProApiKey, setUserProApiKey] = useState<string | null>(() => {
     return localStorage.getItem("gemini_pro_api_key");
   });
-  const [isApiKeyDialogOpen, setIsApiKeyDialogOpen] = useState(false);
+  const [isApiKeyDialogOpen, setIsApiKeyDialogOpen] = useState(() => {
+    // Show dialog on first load if no API key is set
+    return !localStorage.getItem("gemini_api_key");
+  });
 
   // Refs for loop control and state tracking
   const isLoopingRef = useRef(false);
@@ -1073,7 +1076,7 @@ const App: React.FC = () => {
 
       {/* API Key Dialog Modal */}
       <Modal
-        isOpen={!userApiKey || isApiKeyDialogOpen}
+        isOpen={isApiKeyDialogOpen}
         onClose={() => setIsApiKeyDialogOpen(false)}
         title=""
       >
