@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
-import { Key, ExternalLink, AlertCircle, Sparkles, Trash2 } from 'lucide-react';
-import { Button } from './Button';
+import React, { useState } from "react";
+import { Key, ExternalLink, AlertCircle, Sparkles, Trash2 } from "lucide-react";
+import { Button } from "./Button";
 
 interface ApiKeyDialogProps {
   onSubmit: (apiKey: string | null, proApiKey?: string) => void;
   currentKey?: string | null;
   currentProKey?: string | null;
-  language: 'ja' | 'en';
+  language: "ja" | "en";
 }
 
-const AI_STUDIO_FREE_LINK = 'https://ai.studio/apps/drive/1fFjmvZbE4HWDvqrfhbLUD8vvICJymf58';
+const AI_STUDIO_FREE_LINK =
+  "https://ai.studio/apps/drive/1fFjmvZbE4HWDvqrfhbLUD8vvICJymf58";
 
-export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey, currentProKey, language }) => {
-  const [inputKey, setInputKey] = useState(currentKey || '');
+export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({
+  onSubmit,
+  currentKey,
+  currentProKey,
+  language,
+}) => {
+  const [inputKey, setInputKey] = useState(currentKey || "");
   const [showKey, setShowKey] = useState(false);
 
   const handleSubmit = () => {
@@ -22,39 +28,40 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
   };
 
   const handleDelete = () => {
-    setInputKey('');
+    setInputKey("");
     onSubmit(null);
   };
 
   const t = {
     ja: {
-      title: 'APIキーの設定',
-      desc: '⚠️ 画像生成には有料のAPIキーが必要です。無料で使いたい方は下のボタンからGoogle AI Studioをご利用ください。',
-      label: 'Gemini APIキー (有料)',
-      placeholder: 'AIza...',
-      link: 'Google AI StudioでAPIキーを取得',
-      save: '保存して開始',
-      delete: 'APIキーを削除',
-      warning: 'APIキーはブラウザにのみ保存され、サーバーには送信されません。',
-      free_title: '🆓 無料で使いたい方はこちら！',
-      free_btn: 'Google AI Studio で無料で使う',
-      free_note: '※ Googleアカウントでログインして使えます',
-      current_key: '現在のキー',
+      title: "APIキーの設定",
+      desc: "⚠️ 画像生成には有料のAPIキーが必要です。無料で使いたい方は下のボタンからGoogle AI Studioをご利用ください。",
+      label: "Gemini APIキー (有料)",
+      placeholder: "AIza...",
+      link: "Google AI StudioでAPIキーを取得",
+      save: "保存して開始",
+      delete: "APIキーを削除",
+      warning: "APIキーはブラウザにのみ保存され、サーバーには送信されません。",
+      free_title: "🆓 無料で使いたい方はこちら！",
+      free_btn: "Google AI Studio で無料で使う",
+      free_note: "※ Googleアカウントでログインして使えます",
+      current_key: "現在のキー",
     },
     en: {
-      title: 'Setup API Key',
-      desc: '⚠️ Image generation requires a paid API key. For free usage, please use Google AI Studio via the button below.',
-      label: 'Gemini API Key (Paid)',
-      placeholder: 'AIza...',
-      link: 'Get API Key from Google AI Studio',
-      save: 'Save & Start',
-      delete: 'Delete API Key',
-      warning: 'API Key is stored locally in your browser and never sent to our server.',
-      free_title: '🆓 Want to use for FREE?',
-      free_btn: 'Use FREE on Google AI Studio',
-      free_note: '※ Login with your Google account to use',
-      current_key: 'Current Key',
-    }
+      title: "Setup API Key",
+      desc: "⚠️ Image generation requires a paid API key. For free usage, please use Google AI Studio via the button below.",
+      label: "Gemini API Key (Paid)",
+      placeholder: "AIza...",
+      link: "Get API Key from Google AI Studio",
+      save: "Save & Start",
+      delete: "Delete API Key",
+      warning:
+        "API Key is stored locally in your browser and never sent to our server.",
+      free_title: "🆓 Want to use for FREE?",
+      free_btn: "Use FREE on Google AI Studio",
+      free_note: "※ Login with your Google account to use",
+      current_key: "Current Key",
+    },
   };
 
   const text = t[language];
@@ -68,9 +75,7 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
         <h2 className="text-xl font-bold">{text.title}</h2>
       </div>
 
-      <p className="text-sm text-gray-600 font-medium">
-        {text.desc}
-      </p>
+      <p className="text-sm text-gray-600 font-medium">{text.desc}</p>
 
       {/* Free AI Studio Link - Prominent */}
       <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-4 border-green-500 p-4 space-y-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
@@ -102,9 +107,9 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
             <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
             {text.label}
           </label>
-          <a 
-            href="https://aistudio.google.com/app/apikey" 
-            target="_blank" 
+          <a
+            href="https://aistudio.google.com/app/apikey"
+            target="_blank"
             rel="noopener noreferrer"
             className="text-xs text-blue-600 hover:underline flex items-center gap-1"
           >
@@ -112,10 +117,10 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
             <ExternalLink size={12} />
           </a>
         </div>
-        
+
         <div className="relative">
           <input
-            type={showKey ? 'text' : 'password'}
+            type={showKey ? "text" : "password"}
             placeholder={text.placeholder}
             value={inputKey}
             onChange={(e) => setInputKey(e.target.value)}
@@ -126,13 +131,13 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
             onClick={() => setShowKey(!showKey)}
             className="absolute right-2 top-1/2 -translate-y-1/2 text-xs bg-gray-200 px-2 py-1 border-2 border-gray-400 hover:bg-gray-300"
           >
-            {showKey ? 'HIDE' : 'SHOW'}
+            {showKey ? "HIDE" : "SHOW"}
           </button>
         </div>
       </div>
 
       <div className="space-y-2">
-        <Button 
+        <Button
           onClick={handleSubmit}
           disabled={!inputKey.trim()}
           className="w-full py-3"

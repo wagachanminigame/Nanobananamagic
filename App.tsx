@@ -51,7 +51,7 @@ const App: React.FC = () => {
     AspectRatio.Square
   );
   const [selectedModel, setSelectedModel] = useState<ModelType>("pro");
-  const [referenceImage, setReferenceImage] = useState<string | null>(null);
+  const [referenceImages, setReferenceImages] = useState<string[]>([]);
   const [isLooping, setIsLooping] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [gallery, setGallery] = useState<GeneratedItem[]>([]);
@@ -263,9 +263,12 @@ const App: React.FC = () => {
       else setSelectedAngle(ANGLES[0].id);
     }
 
-    // 5. Restore Reference Image if it exists
-    if (item.referenceImage) {
-      setReferenceImage(item.referenceImage);
+    // 5. Restore Reference Images if they exist
+    if (item.referenceImages && item.referenceImages.length > 0) {
+      setReferenceImages(item.referenceImages);
+    } else if (item.referenceImage) {
+      // Backwards compatibility with old single image format
+      setReferenceImages([item.referenceImage]);
     }
 
     setIsHistoryOpen(false); // Close history if open
@@ -306,8 +309,8 @@ const App: React.FC = () => {
 
       // Loop through variations (Sequential generation)
       for (const variation of variationLabels) {
-        // Determine reference image for this step
-        let stepRefImage = referenceImage;
+        // Determine reference images for this step
+        let stepRefImages = [...referenceImages];
 
         // Special Case: Dakimakura Back Side uses the generated Front Side as reference
         // This ensures character consistency (I2I: Front -> Back)
@@ -316,7 +319,8 @@ const App: React.FC = () => {
           variation === "Back Side" &&
           generatedImages.length > 0
         ) {
-          stepRefImage = generatedImages[0].url;
+          // Add the front side image to the reference images
+          stepRefImages = [generatedImages[0].url, ...stepRefImages];
         }
 
         // 1. Refine Prompt
@@ -324,7 +328,7 @@ const App: React.FC = () => {
           userApiKey!,
           themeValue,
           prompt,
-          !!stepRefImage, // Important: pass true if we have a generated ref image
+          stepRefImages.length > 0, // Important: pass true if we have reference images
           angleValue,
           variation || ""
         );
@@ -342,7 +346,7 @@ const App: React.FC = () => {
           currentRefinedPrompt,
           aspectRatio,
           selectedModel,
-          stepRefImage // Pass the step specific ref image
+          stepRefImages // Pass all reference images
         );
 
         if (base64Image) {
@@ -376,7 +380,7 @@ const App: React.FC = () => {
         timestamp: Date.now(),
         aspectRatio: aspectRatio,
         model: selectedModel,
-        referenceImage: referenceImage || undefined,
+        referenceImages: referenceImages.length > 0 ? referenceImages : undefined,
         angle: angleConfig?.label,
         angleId: selectedAngle, // Store current ID for restoration
         themeId: selectedTheme, // Store current ID for restoration
@@ -443,7 +447,7 @@ const App: React.FC = () => {
     selectedAngle,
     aspectRatio,
     selectedModel,
-    referenceImage,
+    referenceImages,
   ]);
 
   // Stable reference for loop
@@ -788,8 +792,8 @@ const App: React.FC = () => {
 
           {/* Image Uploader */}
           <ImageUploader
-            onImageSelect={setReferenceImage}
-            selectedImage={referenceImage}
+            onImageSelect={setReferenceImages}
+            selectedImages={referenceImages}
             lang={language}
           />
 

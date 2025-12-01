@@ -26,7 +26,8 @@ export interface GeneratedItem {
   timestamp: number;
   aspectRatio: AspectRatio;
   model: ModelType;
-  referenceImage?: string; // Optional: To show if an image was used as input
+  referenceImage?: string; // Deprecated: Use referenceImages instead (kept for backwards compatibility)
+  referenceImages?: string[]; // Optional: Multiple reference images used as input
   angle?: string; // Display label
   angleId?: string; // ID for restoring state
   themeId?: string; // ID for restoring state

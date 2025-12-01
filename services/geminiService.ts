@@ -96,7 +96,7 @@ export const generateImage = async (
   prompt: string, 
   aspectRatio: AspectRatio, 
   modelType: ModelType,
-  referenceImageBase64?: string | null
+  referenceImages?: string[] | null
 ): Promise<string | null> => {
   
   let lastError: any = null;
@@ -144,15 +144,18 @@ export const generateImage = async (
 
         const parts: any[] = [];
 
-        if (referenceImageBase64) {
-          const base64Data = referenceImageBase64.split(',')[1] || referenceImageBase64;
-          const mimeType = referenceImageBase64.split(';')[0].split(':')[1] || 'image/png';
-          parts.push({
-            inlineData: {
-              mimeType: mimeType,
-              data: base64Data
-            }
-          });
+        // Add all reference images to the parts array
+        if (referenceImages && referenceImages.length > 0) {
+          for (const referenceImageBase64 of referenceImages) {
+            const base64Data = referenceImageBase64.split(',')[1] || referenceImageBase64;
+            const mimeType = referenceImageBase64.split(';')[0].split(':')[1] || 'image/png';
+            parts.push({
+              inlineData: {
+                mimeType: mimeType,
+                data: base64Data
+              }
+            });
+          }
         }
 
         parts.push({ text: finalPrompt });
