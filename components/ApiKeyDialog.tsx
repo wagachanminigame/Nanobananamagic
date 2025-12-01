@@ -1,107 +1,163 @@
 import React, { useState } from 'react';
-import { Key, ExternalLink, AlertCircle } from 'lucide-react';
+import { Key, ExternalLink, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from './Button';
 
 interface ApiKeyDialogProps {
-  onSubmit: (apiKey: string) => void;
+  onSubmit: (apiKey: string, proApiKey?: string) => void;
   currentKey?: string | null;
+  currentProKey?: string | null;
   language: 'ja' | 'en';
 }
 
-export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey, language }) => {
+export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey, currentProKey, language }) => {
   const [inputKey, setInputKey] = useState(currentKey || '');
+  const [inputProKey, setInputProKey] = useState(currentProKey || '');
   const [showKey, setShowKey] = useState(false);
+  const [showProKey, setShowProKey] = useState(false);
+  const [isProOpen, setIsProOpen] = useState(Boolean(currentProKey));
 
   const handleSubmit = () => {
-    const trimmedKey = inputKey.trim();
-    if (trimmedKey) {
-      onSubmit(trimmedKey);
+    if (inputKey.trim()) {
+      onSubmit(inputKey.trim(), inputProKey.trim() || undefined);
     }
   };
 
-  const text = {
+  const t = {
     ja: {
-      title: 'APIã‚­ãƒ¼è¨­å®š',
-      description: 'ã“ã®ãƒ„ãƒ¼ãƒ«ã‚’ä½¿ç”¨ã™ã‚‹ã«ã¯ã€ã‚ãªãŸè‡ªèº«ã®Gemini APIã‚­ãƒ¼ãŒå¿…è¦ã§ã™ã€‚',
-      getKey: 'Google AI Studioã§APIã‚­ãƒ¼ã‚’å–å¾—ï¼ˆç„¡æ–™ï¼‰',
-      placeholder: 'AIza... ã§å§‹ã¾ã‚‹APIã‚­ãƒ¼ã‚’å…¥åŠ›',
-      save: 'ä¿å­˜ã—ã¦é–‹å§‹',
-      current: 'ç¾åœ¨ã®ã‚­ãƒ¼',
-      change: 'å¤‰æ›´',
-      warning: 'â€» APIã‚­ãƒ¼ã¯ãƒ–ãƒ©ã‚¦ã‚¶ã®localStorageã«ä¿å­˜ã•ã‚Œã¾ã™ã€‚',
-      free: 'ç„¡æ–™æ : 1æ—¥ã‚ãŸã‚Š1,500ãƒªã‚¯ã‚¨ã‚¹ãƒˆ',
+      title: 'APIƒL[‚Ìİ’è',
+      desc: 'Google AI Studio‚Åæ“¾‚µ‚½APIƒL[‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B',
+      label: 'Gemini APIƒL[ (–³—¿˜g—p)',
+      labelPro: 'Pro APIƒL[ (‰Û‹à/Proƒ‚ƒfƒ‹—p)',
+      placeholder: 'AIza...',
+      link: 'Google AI Studio‚ÅAPIƒL[‚ğæ“¾ (–³—¿)',
+      save: '•Û‘¶‚µ‚ÄŠJn',
+      current: 'Œ»İ‚ÌƒL[',
+      change: '•ÏX',
+      warning: 'APIƒL[‚Íƒuƒ‰ƒEƒU‚É‚Ì‚İ•Û‘¶‚³‚êAƒT[ƒo[‚É‚Í‘—M‚³‚ê‚Ü‚¹‚ñB',
+      free: ' Gemini 1.5 Flash (STD) ‚Í–³—¿˜g‚Å—˜—p‰Â”\‚Å‚·B',
+      pro_desc: 'Gemini 1.5 Pro (LEGEND) ‚ğg—p‚·‚éê‡‚ÍA•Ê“rAPIƒL[‚ğİ’è‚µ‚Ä‚­‚¾‚³‚¢B',
+      toggle_pro: 'Proƒ‚ƒfƒ‹—pƒL[İ’è (ƒIƒvƒVƒ‡ƒ“)',
     },
     en: {
-      title: 'API Key Setup',
-      description: 'You need your own Gemini API key to use this tool.',
-      getKey: 'Get API Key from Google AI Studio (Free)',
-      placeholder: 'Enter API key starting with AIza...',
-      save: 'Save and Start',
+      title: 'Setup API Key',
+      desc: 'Please enter your Gemini API Key from Google AI Studio.',
+      label: 'Gemini API Key (For Free Tier)',
+      labelPro: 'Pro API Key (For Paid/Pro Model)',
+      placeholder: 'AIza...',
+      link: 'Get API Key from Google AI Studio (Free)',
+      save: 'Save & Start',
       current: 'Current Key',
       change: 'Change',
-      warning: '* API key is stored in browser localStorage.',
-      free: 'Free tier: 1,500 requests/day',
+      warning: 'API Key is stored locally in your browser and never sent to our server.',
+      free: '* Gemini 1.5 Flash (STD) is available for free.',
+      pro_desc: 'To use Gemini 1.5 Pro (LEGEND), please set a separate API key.',
+      toggle_pro: 'Pro Model Key Settings (Optional)',
     }
   };
 
-  const t = text[language];
+  const text = t[language];
 
   return (
-    <div className="bg-white border-4 border-black p-6 space-y-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] max-w-md">
-      <div className="flex items-center gap-3 mb-4">
-        <Key size={32} className="text-yellow-600" />
-        <h2 className="text-2xl font-bold">{t.title}</h2>
+    <div className='bg-white border-4 border-black p-6 space-y-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] max-w-md w-full'>
+      <div className='flex items-center gap-3 border-b-2 border-gray-100 pb-4'>
+        <div className='bg-yellow-400 p-2 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'>
+          <Key size={24} className='text-black' />
+        </div>
+        <h2 className='text-xl font-bold'>{text.title}</h2>
       </div>
 
-      <p className="text-sm text-gray-700 bg-blue-50 border-2 border-blue-300 p-3">
-        {t.description}
+      <p className='text-sm text-gray-600 font-medium'>
+        {text.desc}
       </p>
 
-      <a
-        href="https://aistudio.google.com/app/apikey"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-2 bg-blue-500 text-white font-bold px-4 py-3 hover:bg-blue-600 transition-colors border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] justify-center"
-      >
-        {t.getKey}
-        <ExternalLink size={16} />
-      </a>
-
-      <div className="space-y-2">
-        <label className="text-sm font-bold flex items-center gap-2">
-          <Key size={16} />
-          API Key
-        </label>
-        <div className="relative">
+      {/* Standard Key Input */}
+      <div className='space-y-2'>
+        <div className='flex justify-between items-center'>
+          <label className='text-sm font-bold flex items-center gap-2'>
+            <span className='w-2 h-2 bg-green-500 rounded-full'></span>
+            {text.label}
+          </label>
+          <a 
+            href='https://aistudio.google.com/app/apikey' 
+            target='_blank' 
+            rel='noopener noreferrer'
+            className='text-xs text-blue-600 hover:underline flex items-center gap-1'
+          >
+            {text.link}
+            <ExternalLink size={12} />
+          </a>
+        </div>
+        
+        <div className='relative'>
           <input
             type={showKey ? 'text' : 'password'}
+            placeholder={text.placeholder}
             value={inputKey}
             onChange={(e) => setInputKey(e.target.value)}
-            placeholder={t.placeholder}
-            className="w-full p-3 border-4 border-gray-300 focus:border-black font-mono text-sm pr-20"
+            className='w-full border-2 border-black p-3 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-black font-mono text-sm pr-20'
           />
           <button
+            type='button'
             onClick={() => setShowKey(!showKey)}
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-xs bg-gray-200 px-2 py-1 border-2 border-gray-400 hover:bg-gray-300"
+            className='absolute right-2 top-1/2 -translate-y-1/2 text-xs bg-gray-200 px-2 py-1 border-2 border-gray-400 hover:bg-gray-300'
           >
-            {showKey ? 'ğŸ™ˆ' : 'ğŸ‘ï¸'}
+            {showKey ? 'HIDE' : 'SHOW'}
           </button>
         </div>
       </div>
 
-      <Button
+      {/* Pro Key Section (Collapsible) */}
+      <div className='border-2 border-gray-200 rounded-lg overflow-hidden'>
+        <button 
+          onClick={() => setIsProOpen(!isProOpen)}
+          className='w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 transition-colors'
+        >
+          <span className='text-sm font-bold flex items-center gap-2 text-gray-700'>
+            <span className='w-2 h-2 bg-purple-500 rounded-full'></span>
+            {text.toggle_pro}
+          </span>
+          {isProOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </button>
+        
+        {isProOpen && (
+          <div className='p-4 bg-white border-t-2 border-gray-200 space-y-3'>
+            <p className='text-xs text-gray-500 mb-2'>{text.pro_desc}</p>
+            <div className='space-y-2'>
+              <label className='text-xs font-bold text-gray-700'>{text.labelPro}</label>
+              <div className='relative'>
+                <input
+                  type={showProKey ? 'text' : 'password'}
+                  placeholder={text.placeholder}
+                  value={inputProKey}
+                  onChange={(e) => setInputProKey(e.target.value)}
+                  className='w-full border-2 border-gray-300 p-2 bg-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 font-mono text-sm pr-20'
+                />
+                <button
+                  type='button'
+                  onClick={() => setShowProKey(!showProKey)}
+                  className='absolute right-2 top-1/2 -translate-y-1/2 text-xs bg-gray-100 px-2 py-1 border border-gray-300 hover:bg-gray-200'
+                >
+                  {showProKey ? 'HIDE' : 'SHOW'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <Button 
         onClick={handleSubmit}
         disabled={!inputKey.trim()}
-        className="w-full py-3"
+        className='w-full py-3'
       >
-        {t.save}
+        {text.save}
       </Button>
 
-      <div className="flex items-start gap-2 bg-yellow-50 border-2 border-yellow-400 p-3 text-xs">
-        <AlertCircle size={16} className="text-yellow-600 shrink-0 mt-0.5" />
-        <div className="space-y-1 text-gray-700">
-          <p>{t.warning}</p>
-          <p className="font-bold text-green-600">{t.free}</p>
+      <div className='flex items-start gap-2 bg-yellow-50 border-2 border-yellow-400 p-3 text-xs'>
+        <AlertCircle size={16} className='text-yellow-600 shrink-0 mt-0.5' />
+        <div className='space-y-1 text-gray-700'>
+          <p>{text.warning}</p>
+          <p className='font-bold text-green-600'>{text.free}</p>
         </div>
       </div>
     </div>
