@@ -408,13 +408,11 @@ const App: React.FC = () => {
         (err.message &&
           (err.message.includes("429") ||
             err.message.includes("quota") ||
-            err.message.includes("RESOURCE_EXHAUSTED") ||
-            err.message.includes("rate") ||
-            err.message.includes("exceeded")));
+            err.message.includes("RESOURCE_EXHAUSTED")));
 
       if (isRateLimitError) {
         msg =
-          "⚠️ API制限に達しました！\n\n無料枠の利用上限を超えました。\n少し時間を置いてから再試行するか、\n明日まで待つとリセットされます。\n\n💡 課金プランにすると制限が緩和されます。";
+          "⚠️ API制限に達しました！\n\nリクエスト数の上限を超えました。\n数秒〜数分待ってから再試行してください。\n\n※ 制限が続く場合は、Google AI Studio で\n直接お試しください。";
       } else if (isPermissionError) {
         msg =
           "APIキーの権限がありません。Pro装備を使うには課金キーが必要です。";
