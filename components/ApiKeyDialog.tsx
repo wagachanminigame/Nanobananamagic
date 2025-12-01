@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Key, ExternalLink, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Key, ExternalLink, AlertCircle, ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
 import { Button } from './Button';
 
 interface ApiKeyDialogProps {
@@ -8,6 +8,8 @@ interface ApiKeyDialogProps {
   currentProKey?: string | null;
   language: 'ja' | 'en';
 }
+
+const AI_STUDIO_FREE_LINK = 'https://ai.studio/apps/drive/1fFjmvZbE4HWDvqrfhbLUD8vvICJymf58';
 
 export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey, currentProKey, language }) => {
   const [inputKey, setInputKey] = useState(currentKey || '');
@@ -25,31 +27,35 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
   const t = {
     ja: {
       title: 'APIキーの設定',
-      desc: 'Google AI Studioで取得したAPIキーを入力してください。',
-      label: 'Gemini APIキー (無料枠用)',
+      desc: '⚠️ 画像生成には有料のAPIキーが必要です。無料で使いたい方は下のボタンからGoogle AI Studioをご利用ください。',
+      label: 'Gemini APIキー (有料)',
       labelPro: 'Pro APIキー (課金/Proモデル用)',
       placeholder: 'AIza...',
-      link: 'Google AI StudioでAPIキーを取得 (無料)',
+      link: 'Google AI StudioでAPIキーを取得',
       save: '保存して開始',
       current: '現在のキー',
       change: '変更',
       warning: 'APIキーはブラウザにのみ保存され、サーバーには送信されません。',
-      free: '※ Gemini 2.5 Flash (STD) は無料枠で利用可能です。',
+      free_title: '🆓 無料で使いたい方はこちら！',
+      free_btn: 'Google AI Studio で無料で使う',
+      free_note: '※ Googleアカウントでログインして使えます',
       pro_desc: 'Gemini 3 Pro (LEGEND) を使用する場合は、別途APIキーを設定してください。',
       toggle_pro: 'Proモデル用キー設定 (オプション)',
     },
     en: {
       title: 'Setup API Key',
-      desc: 'Please enter your Gemini API Key from Google AI Studio.',
-      label: 'Gemini API Key (For Free Tier)',
+      desc: '⚠️ Image generation requires a paid API key. For free usage, please use Google AI Studio via the button below.',
+      label: 'Gemini API Key (Paid)',
       labelPro: 'Pro API Key (For Paid/Pro Model)',
       placeholder: 'AIza...',
-      link: 'Get API Key from Google AI Studio (Free)',
+      link: 'Get API Key from Google AI Studio',
       save: 'Save & Start',
       current: 'Current Key',
       change: 'Change',
       warning: 'API Key is stored locally in your browser and never sent to our server.',
-      free: '* Gemini 2.5 Flash (STD) is available for free.',
+      free_title: '🆓 Want to use for FREE?',
+      free_btn: 'Use FREE on Google AI Studio',
+      free_note: '※ Login with your Google account to use',
       pro_desc: 'To use Gemini 3 Pro (LEGEND), please set a separate API key.',
       toggle_pro: 'Pro Model Key Settings (Optional)',
     }
@@ -70,11 +76,34 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
         {text.desc}
       </p>
 
+      {/* Free AI Studio Link - Prominent */}
+      <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-4 border-green-500 p-4 space-y-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
+        <p className="font-bold text-green-700 text-sm">{text.free_title}</p>
+        <a
+          href={AI_STUDIO_FREE_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 border-2 border-black text-center transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none flex items-center justify-center gap-2"
+        >
+          <Sparkles size={18} />
+          {text.free_btn}
+          <ExternalLink size={14} />
+        </a>
+        <p className="text-xs text-green-600">{text.free_note}</p>
+      </div>
+
+      {/* Divider */}
+      <div className="flex items-center gap-3">
+        <div className="h-[2px] flex-1 bg-gray-200"></div>
+        <span className="text-xs text-gray-400 font-bold">OR</span>
+        <div className="h-[2px] flex-1 bg-gray-200"></div>
+      </div>
+
       {/* Standard Key Input */}
       <div className="space-y-2">
         <div className="flex justify-between items-center">
           <label className="text-sm font-bold flex items-center gap-2">
-            <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+            <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
             {text.label}
           </label>
           <a 
@@ -157,7 +186,6 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
         <AlertCircle size={16} className="text-yellow-600 shrink-0 mt-0.5" />
         <div className="space-y-1 text-gray-700">
           <p>{text.warning}</p>
-          <p className="font-bold text-green-600">{text.free}</p>
         </div>
       </div>
     </div>
