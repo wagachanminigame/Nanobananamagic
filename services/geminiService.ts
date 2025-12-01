@@ -156,6 +156,28 @@ export const generateImage = async (
               }
             });
           }
+
+          // Auto-add reference image instruction if user didn't explicitly mention it
+          const lowerPrompt = finalPrompt.toLowerCase();
+          const hasReferenceKeyword = 
+            lowerPrompt.includes('参照') || 
+            lowerPrompt.includes('添付') || 
+            lowerPrompt.includes('reference') || 
+            lowerPrompt.includes('attached') ||
+            lowerPrompt.includes('この画像') ||
+            lowerPrompt.includes('上の画像') ||
+            lowerPrompt.includes('この絵') ||
+            lowerPrompt.includes('画像を') ||
+            lowerPrompt.includes('based on');
+
+          if (!hasReferenceKeyword) {
+            const imageCount = referenceImages.length;
+            const refInstruction = imageCount === 1
+              ? `\n\n[REFERENCE IMAGE INSTRUCTION: Use the attached reference image as the primary visual guide. Maintain the character design, art style, color palette, and key visual elements from the reference. Generate a new image that is consistent with the reference while following the prompt above.]`
+              : `\n\n[REFERENCE IMAGES INSTRUCTION: Use the ${imageCount} attached reference images as visual guides. Maintain character designs, art styles, color palettes, and key visual elements from the references. Blend and harmonize elements from all reference images while following the prompt above.]`;
+            
+            finalPrompt += refInstruction;
+          }
         }
 
         parts.push({ text: finalPrompt });
