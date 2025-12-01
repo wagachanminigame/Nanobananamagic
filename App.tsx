@@ -40,6 +40,9 @@ const App: React.FC = () => {
   const [userApiKey, setUserApiKey] = useState<string | null>(() => {
     return localStorage.getItem('gemini_api_key');
   });
+  const [userProApiKey, setUserProApiKey] = useState<string | null>(() => {
+    return localStorage.getItem('gemini_pro_api_key');
+  });
   const [isApiKeyDialogOpen, setIsApiKeyDialogOpen] = useState(false);
 
   // Refs for loop control and state tracking
@@ -167,9 +170,16 @@ const App: React.FC = () => {
     setIsApiKeyDialogOpen(true);
   };
 
-  const handleApiKeySubmit = (apiKey: string) => {
+  const handleApiKeySubmit = (apiKey: string, proApiKey?: string) => {
     localStorage.setItem('gemini_api_key', apiKey);
     setUserApiKey(apiKey);
+    if (proApiKey) {
+      localStorage.setItem('gemini_pro_api_key', proApiKey);
+      setUserProApiKey(proApiKey);
+    } else if (proApiKey === '') {
+      localStorage.removeItem('gemini_pro_api_key');
+      setUserProApiKey(null);
+    }
     setIsApiKeyDialogOpen(false);
   };
 
@@ -276,7 +286,7 @@ const App: React.FC = () => {
         
         // 2. Generate Image
         const base64Image = await generateImage(
-          userApiKey!,
+          activeApiKey!,
           currentRefinedPrompt, 
           aspectRatio, 
           selectedModel,
@@ -903,6 +913,7 @@ const App: React.FC = () => {
         <ApiKeyDialog 
           onSubmit={handleApiKeySubmit}
           currentKey={userApiKey}
+          currentProKey={userProApiKey}
           language={language}
         />
       </Modal>
