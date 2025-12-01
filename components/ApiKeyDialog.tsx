@@ -34,8 +34,8 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
       current: '現在のキー',
       change: '変更',
       warning: 'APIキーはブラウザにのみ保存され、サーバーには送信されません。',
-      free: '※ Gemini 1.5 Flash (STD) は無料枠で利用可能です。',
-      pro_desc: 'Gemini 1.5 Pro (LEGEND) を使用する場合は、別途APIキーを設定してください。',
+      free: '※ Gemini 2.5 Flash (STD) は無料枠で利用可能です。',
+      pro_desc: 'Gemini 3 Pro (LEGEND) を使用する場合は、別途APIキーを設定してください。',
       toggle_pro: 'Proモデル用キー設定 (オプション)',
     },
     en: {
@@ -49,8 +49,8 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
       current: 'Current Key',
       change: 'Change',
       warning: 'API Key is stored locally in your browser and never sent to our server.',
-      free: '* Gemini 1.5 Flash (STD) is available for free.',
-      pro_desc: 'To use Gemini 1.5 Pro (LEGEND), please set a separate API key.',
+      free: '* Gemini 2.5 Flash (STD) is available for free.',
+      pro_desc: 'To use Gemini 3 Pro (LEGEND), please set a separate API key.',
       toggle_pro: 'Pro Model Key Settings (Optional)',
     }
   };
