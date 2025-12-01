@@ -14,7 +14,7 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
   const [inputProKey, setInputProKey] = useState(currentProKey || '');
   const [showKey, setShowKey] = useState(false);
   const [showProKey, setShowProKey] = useState(false);
-  const [isProOpen, setIsProOpen] = useState(Boolean(currentProKey));
+  const [isProOpen, setIsProOpen] = useState(!!currentProKey);
 
   const handleSubmit = () => {
     if (inputKey.trim()) {
@@ -24,19 +24,19 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
 
   const t = {
     ja: {
-      title: 'APIƒL[‚Ìİ’è',
-      desc: 'Google AI Studio‚Åæ“¾‚µ‚½APIƒL[‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B',
-      label: 'Gemini APIƒL[ (–³—¿˜g—p)',
-      labelPro: 'Pro APIƒL[ (‰Û‹à/Proƒ‚ƒfƒ‹—p)',
+      title: 'APIç¹§ï½­ç¹ï½¼ç¸ºï½®éšªï½­è³ãƒ»,
+      desc: 'Google AI Studioç¸ºï½§èœ¿é–€ï½¾åŠ±ï¼ ç¸ºè˜—PIç¹§ï½­ç¹ï½¼ç¹§è²ãƒ»èœ‰å¸™ï¼ ç¸ºï½¦ç¸ºä¸Šâ–¡ç¸ºè¼”ï¼ç¸²ãƒ»,
+      label: 'Gemini APIç¹§ï½­ç¹ï½¼ (è¾Ÿï½¡è­å‘æ£§é€•ï½¨)',
+      labelPro: 'Pro APIç¹§ï½­ç¹ï½¼ (éš±ï½²é©¥ãƒ»Proç¹ï½¢ç¹ãƒ»Îé€•ï½¨)',
       placeholder: 'AIza...',
-      link: 'Google AI Studio‚ÅAPIƒL[‚ğæ“¾ (–³—¿)',
-      save: '•Û‘¶‚µ‚ÄŠJn',
-      current: 'Œ»İ‚ÌƒL[',
-      change: '•ÏX',
-      warning: 'APIƒL[‚Íƒuƒ‰ƒEƒU‚É‚Ì‚İ•Û‘¶‚³‚êAƒT[ƒo[‚É‚Í‘—M‚³‚ê‚Ü‚¹‚ñB',
-      free: ' Gemini 1.5 Flash (STD) ‚Í–³—¿˜g‚Å—˜—p‰Â”\‚Å‚·B',
-      pro_desc: 'Gemini 1.5 Pro (LEGEND) ‚ğg—p‚·‚éê‡‚ÍA•Ê“rAPIƒL[‚ğİ’è‚µ‚Ä‚­‚¾‚³‚¢B',
-      toggle_pro: 'Proƒ‚ƒfƒ‹—pƒL[İ’è (ƒIƒvƒVƒ‡ƒ“)',
+      link: 'Google AI Studioç¸ºï½§APIç¹§ï½­ç¹ï½¼ç¹§è²å™è •ãƒ»(è¾Ÿï½¡è­ãƒ»',
+      save: 'è«æ™ï½­å€¥ï¼ ç¸ºï½¦é«¢å¥ï½§ãƒ»,
+      current: 'è¿´ï½¾è¨ï½¨ç¸ºï½®ç¹§ï½­ç¹ï½¼',
+      change: 'èŸç”»å³©',
+      warning: 'APIç¹§ï½­ç¹ï½¼ç¸ºï½¯ç¹æ‚¶Î›ç¹§ï½¦ç¹§ï½¶ç¸ºï½«ç¸ºï½®ç¸ºï½¿è«æ™ï½­å€¥ï¼†ç¹§å¾ŒÂ€âˆšã—ç¹ï½¼ç¹èˆŒãƒ»ç¸ºï½«ç¸ºï½¯é¨¾âˆ½ï½¿ï½¡ç¸ºè¼”ï½Œç¸ºï½¾ç¸ºå¸™ï½“ç¸²ãƒ»,
+      free: 'çª¶ï½» Gemini 1.5 Flash (STD) ç¸ºï½¯è¾Ÿï½¡è­å‘æ£§ç¸ºï½§è›»ï½©é€•ï½¨èœ¿ï½¯é–­ï½½ç¸ºï½§ç¸ºå¶Â€ãƒ»,
+      pro_desc: 'Gemini 1.5 Pro (LEGEND) ç¹§å‰ƒï½½ï½¿é€•ï½¨ç¸ºå¶ï½‹è£ï½´èœ·åŒ»ãƒ»ç¸²âˆæŒ¨é¨¾å°¿PIç¹§ï½­ç¹ï½¼ç¹§å®šï½¨ï½­è³å£¹ï¼ ç¸ºï½¦ç¸ºä¸Šâ–¡ç¸ºè¼”ï¼ç¸²ãƒ»,
+      toggle_pro: 'Proç¹ï½¢ç¹ãƒ»Îé€•ï½¨ç¹§ï½­ç¹ï½¼éšªï½­è³ãƒ»(ç¹§ï½ªç¹åŠ±ã™ç¹ï½§ç¹ï½³)',
     },
     en: {
       title: 'Setup API Key',
@@ -58,48 +58,48 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
   const text = t[language];
 
   return (
-    <div className='bg-white border-4 border-black p-6 space-y-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] max-w-md w-full'>
-      <div className='flex items-center gap-3 border-b-2 border-gray-100 pb-4'>
-        <div className='bg-yellow-400 p-2 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'>
-          <Key size={24} className='text-black' />
+    <div className="bg-white border-4 border-black p-6 space-y-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] max-w-md w-full">
+      <div className="flex items-center gap-3 border-b-2 border-gray-100 pb-4">
+        <div className="bg-yellow-400 p-2 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+          <Key size={24} className="text-black" />
         </div>
-        <h2 className='text-xl font-bold'>{text.title}</h2>
+        <h2 className="text-xl font-bold">{text.title}</h2>
       </div>
 
-      <p className='text-sm text-gray-600 font-medium'>
+      <p className="text-sm text-gray-600 font-medium">
         {text.desc}
       </p>
 
       {/* Standard Key Input */}
-      <div className='space-y-2'>
-        <div className='flex justify-between items-center'>
-          <label className='text-sm font-bold flex items-center gap-2'>
-            <span className='w-2 h-2 bg-green-500 rounded-full'></span>
+      <div className="space-y-2">
+        <div className="flex justify-between items-center">
+          <label className="text-sm font-bold flex items-center gap-2">
+            <span className="w-2 h-2 bg-green-500 rounded-full"></span>
             {text.label}
           </label>
           <a 
-            href='https://aistudio.google.com/app/apikey' 
-            target='_blank' 
-            rel='noopener noreferrer'
-            className='text-xs text-blue-600 hover:underline flex items-center gap-1'
+            href="https://aistudio.google.com/app/apikey" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-xs text-blue-600 hover:underline flex items-center gap-1"
           >
             {text.link}
             <ExternalLink size={12} />
           </a>
         </div>
         
-        <div className='relative'>
+        <div className="relative">
           <input
             type={showKey ? 'text' : 'password'}
             placeholder={text.placeholder}
             value={inputKey}
             onChange={(e) => setInputKey(e.target.value)}
-            className='w-full border-2 border-black p-3 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-black font-mono text-sm pr-20'
+            className="w-full border-2 border-black p-3 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-black font-mono text-sm pr-20"
           />
           <button
-            type='button'
+            type="button"
             onClick={() => setShowKey(!showKey)}
-            className='absolute right-2 top-1/2 -translate-y-1/2 text-xs bg-gray-200 px-2 py-1 border-2 border-gray-400 hover:bg-gray-300'
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-xs bg-gray-200 px-2 py-1 border-2 border-gray-400 hover:bg-gray-300"
           >
             {showKey ? 'HIDE' : 'SHOW'}
           </button>
@@ -107,35 +107,35 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
       </div>
 
       {/* Pro Key Section (Collapsible) */}
-      <div className='border-2 border-gray-200 rounded-lg overflow-hidden'>
+      <div className="border-2 border-gray-200 rounded-lg overflow-hidden">
         <button 
           onClick={() => setIsProOpen(!isProOpen)}
-          className='w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 transition-colors'
+          className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 transition-colors"
         >
-          <span className='text-sm font-bold flex items-center gap-2 text-gray-700'>
-            <span className='w-2 h-2 bg-purple-500 rounded-full'></span>
+          <span className="text-sm font-bold flex items-center gap-2 text-gray-700">
+            <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
             {text.toggle_pro}
           </span>
           {isProOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
         </button>
         
         {isProOpen && (
-          <div className='p-4 bg-white border-t-2 border-gray-200 space-y-3'>
-            <p className='text-xs text-gray-500 mb-2'>{text.pro_desc}</p>
-            <div className='space-y-2'>
-              <label className='text-xs font-bold text-gray-700'>{text.labelPro}</label>
-              <div className='relative'>
+          <div className="p-4 bg-white border-t-2 border-gray-200 space-y-3">
+            <p className="text-xs text-gray-500 mb-2">{text.pro_desc}</p>
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-gray-700">{text.labelPro}</label>
+              <div className="relative">
                 <input
                   type={showProKey ? 'text' : 'password'}
                   placeholder={text.placeholder}
                   value={inputProKey}
                   onChange={(e) => setInputProKey(e.target.value)}
-                  className='w-full border-2 border-gray-300 p-2 bg-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 font-mono text-sm pr-20'
+                  className="w-full border-2 border-gray-300 p-2 bg-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-500 font-mono text-sm pr-20"
                 />
                 <button
-                  type='button'
+                  type="button"
                   onClick={() => setShowProKey(!showProKey)}
-                  className='absolute right-2 top-1/2 -translate-y-1/2 text-xs bg-gray-100 px-2 py-1 border border-gray-300 hover:bg-gray-200'
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-xs bg-gray-100 px-2 py-1 border border-gray-300 hover:bg-gray-200"
                 >
                   {showProKey ? 'HIDE' : 'SHOW'}
                 </button>
@@ -148,16 +148,16 @@ export const ApiKeyDialog: React.FC<ApiKeyDialogProps> = ({ onSubmit, currentKey
       <Button 
         onClick={handleSubmit}
         disabled={!inputKey.trim()}
-        className='w-full py-3'
+        className="w-full py-3"
       >
         {text.save}
       </Button>
 
-      <div className='flex items-start gap-2 bg-yellow-50 border-2 border-yellow-400 p-3 text-xs'>
-        <AlertCircle size={16} className='text-yellow-600 shrink-0 mt-0.5' />
-        <div className='space-y-1 text-gray-700'>
+      <div className="flex items-start gap-2 bg-yellow-50 border-2 border-yellow-400 p-3 text-xs">
+        <AlertCircle size={16} className="text-yellow-600 shrink-0 mt-0.5" />
+        <div className="space-y-1 text-gray-700">
           <p>{text.warning}</p>
-          <p className='font-bold text-green-600'>{text.free}</p>
+          <p className="font-bold text-green-600">{text.free}</p>
         </div>
       </div>
     </div>
