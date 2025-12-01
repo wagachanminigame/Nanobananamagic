@@ -105,7 +105,8 @@ export const generateImage = async (
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         const ai = new GoogleGenAI({ apiKey: apiKey });
-        const model = modelType === 'pro' ? 'gemini-3-pro-image-preview' : 'gemini-2.5-flash-image';
+        // Try gemini-2.0-flash-exp which may have free tier for image generation
+        const model = modelType === 'pro' ? 'gemini-2.0-flash-exp' : 'gemini-2.0-flash-exp';
 
         let apiAspectRatio: any = aspectRatio;
         let finalPrompt = prompt;
