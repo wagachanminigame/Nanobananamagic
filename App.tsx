@@ -398,7 +398,21 @@ const App: React.FC = () => {
             err.message.includes("Requested entity was not found") ||
             err.message.includes("API key not valid")));
 
-      if (isPermissionError) {
+      // Check for rate limit / quota exceeded error (429)
+      const isRateLimitError =
+        err.status === 429 ||
+        err.code === 429 ||
+        (err.message &&
+          (err.message.includes("429") ||
+            err.message.includes("quota") ||
+            err.message.includes("RESOURCE_EXHAUSTED") ||
+            err.message.includes("rate") ||
+            err.message.includes("exceeded")));
+
+      if (isRateLimitError) {
+        msg =
+          "⚠️ API制限に達しました！\n\n無料枠の利用上限を超えました。\n少し時間を置いてから再試行するか、\n明日まで待つとリセットされます。\n\n💡 課金プランにすると制限が緩和されます。";
+      } else if (isPermissionError) {
         msg =
           "APIキーの権限がありません。Pro装備を使うには課金キーが必要です。";
       } else if (err.message && err.message.includes("400")) {
