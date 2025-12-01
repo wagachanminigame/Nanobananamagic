@@ -412,7 +412,7 @@ const App: React.FC = () => {
 
       if (isRateLimitError) {
         msg =
-          "⚠️ API制限に達しました！\n\nリクエスト数の上限を超えました。\n数秒〜数分待ってから再試行してください。\n\n※ 制限が続く場合は、Google AI Studio で\n直接お試しください。";
+          "⚠️ 有料のAPIキーが必要です！\n\n画像生成には課金済みのAPIキーが必要です。\n\n🆓 無料で使いたい場合は、\nGoogle AI Studio をご利用ください。\n（🔑ボタンからリンクがあります）";
       } else if (isPermissionError) {
         msg =
           "APIキーの権限がありません。Pro装備を使うには課金キーが必要です。";
