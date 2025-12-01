@@ -145,7 +145,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ item, currentImageUrl, o
         </div>
 
         {/* Preview */}
-        <div className="p-4 border-b-2 border-gray-200">
+        <div className="p-4 border-b-2 border-gray-200 bg-white">
           <div className="flex gap-3">
             <img 
               src={currentImageUrl} 
@@ -153,7 +153,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ item, currentImageUrl, o
               className="w-20 h-20 object-cover border-2 border-black"
             />
             <div className="flex-1 min-w-0">
-              <p className="text-xs text-gray-600 line-clamp-3 font-mono">
+              <p className="text-xs text-gray-700 line-clamp-3 font-mono">
                 {item.socialText}
               </p>
             </div>
@@ -161,13 +161,13 @@ export const ShareModal: React.FC<ShareModalProps> = ({ item, currentImageUrl, o
         </div>
 
         {/* Remix Toggle */}
-        <div className="p-4 border-b-2 border-gray-200">
+        <div className="p-4 border-b-2 border-gray-200 bg-white">
           <button
             onClick={() => setIncludeRemix(!includeRemix)}
             className="flex items-center justify-between w-full group"
           >
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold">🔗 REMIXリンクを含める</span>
+              <span className="text-sm font-bold text-black">🔗 REMIXリンクを含める</span>
               <span className="text-[10px] text-gray-500">(設定を共有)</span>
             </div>
             {includeRemix ? (
@@ -177,14 +177,14 @@ export const ShareModal: React.FC<ShareModalProps> = ({ item, currentImageUrl, o
             )}
           </button>
           {includeRemix && (
-            <p className="text-[10px] text-gray-500 mt-2 bg-gray-100 p-2 rounded">
+            <p className="text-[10px] text-gray-600 mt-2 bg-gray-100 p-2 rounded">
               ※ プロンプト・テーマ・アングル情報がURLに含まれます
             </p>
           )}
         </div>
 
         {/* Share Options */}
-        <div className="p-4 space-y-2">
+        <div className="p-4 space-y-2 bg-white">
           {/* Native Share (Mobile) */}
           {supportsNativeShare && (
             <button
@@ -217,30 +217,30 @@ export const ShareModal: React.FC<ShareModalProps> = ({ item, currentImageUrl, o
 
           {/* Divider */}
           <div className="flex items-center gap-2 py-2">
-            <div className="flex-1 h-0.5 bg-gray-200"></div>
-            <span className="text-xs text-gray-400">または</span>
-            <div className="flex-1 h-0.5 bg-gray-200"></div>
+            <div className="flex-1 h-0.5 bg-gray-300"></div>
+            <span className="text-xs text-gray-500 font-medium">または</span>
+            <div className="flex-1 h-0.5 bg-gray-300"></div>
           </div>
 
           {/* Copy buttons */}
           <div className="flex gap-2">
             <button
               onClick={handleCopyText}
-              className="flex-1 flex items-center justify-center gap-2 p-2 bg-white border-2 border-black font-bold text-sm hover:bg-yellow-100 transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 p-2 bg-white border-2 border-black font-bold text-sm text-black hover:bg-yellow-100 transition-colors"
             >
               {copied === 'text' ? <Check size={16} className="text-green-500" /> : <Link2 size={16} />}
               {copied === 'text' ? 'COPIED!' : 'テキスト'}
             </button>
             <button
               onClick={handleCopyImage}
-              className="flex-1 flex items-center justify-center gap-2 p-2 bg-white border-2 border-black font-bold text-sm hover:bg-yellow-100 transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 p-2 bg-white border-2 border-black font-bold text-sm text-black hover:bg-yellow-100 transition-colors"
             >
               {copied === 'image' ? <Check size={16} className="text-green-500" /> : <ImageIcon size={16} />}
               {copied === 'image' ? 'COPIED!' : '画像'}
             </button>
             <button
               onClick={handleDownload}
-              className="flex-1 flex items-center justify-center gap-2 p-2 bg-white border-2 border-black font-bold text-sm hover:bg-yellow-100 transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 p-2 bg-white border-2 border-black font-bold text-sm text-black hover:bg-yellow-100 transition-colors"
             >
               💾 保存
             </button>
@@ -248,8 +248,8 @@ export const ShareModal: React.FC<ShareModalProps> = ({ item, currentImageUrl, o
         </div>
 
         {/* Tip */}
-        <div className="p-3 bg-gray-100 border-t-2 border-gray-200">
-          <p className="text-[10px] text-gray-500 text-center">
+        <div className="p-3 bg-yellow-50 border-t-2 border-yellow-200">
+          <p className="text-xs text-yellow-800 text-center font-medium">
             💡 画像はコピーまたは保存してから投稿に添付してね！
           </p>
         </div>

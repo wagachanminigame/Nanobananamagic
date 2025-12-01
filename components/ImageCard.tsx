@@ -267,7 +267,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({ item, isFeatured = false, 
           </span>
           <button 
             onClick={handleShareClick}
-            className="flex items-center gap-1.5 text-[10px] sm:text-xs font-bold text-black hover:text-blue-600 transition-colors uppercase"
+            className="flex items-center gap-1.5 text-[10px] sm:text-xs font-bold bg-gradient-to-r from-pink-500 to-orange-400 text-white px-2 py-1 rounded-full border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:scale-105 hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all animate-pulse hover:animate-none uppercase"
           >
             <Share2 size={12} />
             SHARE
