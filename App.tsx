@@ -50,7 +50,7 @@ const App: React.FC = () => {
   const [aspectRatio, setAspectRatio] = useState<AspectRatio>(
     AspectRatio.Square
   );
-  const [selectedModel, setSelectedModel] = useState<ModelType>("flash");
+  const [selectedModel, setSelectedModel] = useState<ModelType>("pro");
   const [referenceImage, setReferenceImage] = useState<string | null>(null);
   const [isLooping, setIsLooping] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -707,32 +707,26 @@ const App: React.FC = () => {
               {t.tier_label}
             </label>
             <div className="grid grid-cols-2 gap-2">
-              <button
-                onClick={() => handleModelChange("flash")}
-                className={`p-2 text-xs font-bold border-4 transition-all ${
-                  selectedModel === "flash"
-                    ? "bg-yellow-400 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] translate-x-[1px] translate-y-[1px]"
-                    : "bg-white border-gray-300 text-gray-400 hover:border-gray-400"
-                }`}
+              <a
+                href="https://ai.studio/apps/drive/1fFjmvZbE4HWDvqrfhbLUD8vvICJymf58"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 text-xs font-bold border-4 transition-all bg-green-100 border-green-500 text-green-700 hover:bg-green-200 text-center"
               >
-                STD (FLASH)
+                🆓 無料版
                 <br />
-                <span className="text-[10px]">FREE</span>
-              </button>
+                <span className="text-[10px] underline">→ AI Studio</span>
+              </a>
               <button
                 onClick={() => handleModelChange("pro")}
-                className={`p-2 text-xs font-bold border-4 transition-all relative overflow-hidden ${
-                  selectedModel === "pro"
-                    ? "bg-black text-yellow-400 border-yellow-500 shadow-[2px_2px_0px_0px_rgba(250,204,21,0.5)] translate-x-[1px] translate-y-[1px]"
-                    : "bg-white border-gray-300 text-gray-400 hover:border-gray-400"
-                }`}
+                className="p-2 text-xs font-bold border-4 transition-all relative overflow-hidden bg-black text-yellow-400 border-yellow-500 shadow-[2px_2px_0px_0px_rgba(250,204,21,0.5)]"
               >
                 <div className="flex flex-col items-center">
                   <div className="flex items-center gap-1">
-                    LEGEND (PRO) <Crown size={10} />
+                    PRO <Crown size={10} />
                   </div>
                   <span className="text-[10px] text-red-500 bg-white px-1 mt-0.5">
-                    GOLD REQ.
+                    有料API
                   </span>
                 </div>
               </button>
